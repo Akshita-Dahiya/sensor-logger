@@ -16,6 +16,7 @@ Shared code for reading CSV columns lives in `helpers.py`.
 
 ## How to run
 
+
 Requires Python 3 and these libraries:
 
 ```
@@ -35,6 +36,14 @@ To view the live dashboard:
 ```
 python -m streamlit run dashboard.py
 ```
+
+To run the tests:
+
+```
+pip install pytest
+python -m pytest
+```
+
 
 Note: `readings.csv` is created by `sensor.py`, so run it first.
 
