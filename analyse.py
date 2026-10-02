@@ -1,27 +1,29 @@
 import csv
 
-temperatures = []
-humidity = []
+def load_column(filename, column):
+    values = []
+    with open(filename, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            values.append(float(row[column]))
+    return values
 
-with open("readings.csv", "r") as file:
-    reader = csv.DictReader(file)
-    for row in reader:
-        temperatures.append(float(row["temperature"]))
-        humidity.append(float(row["humidity"]))
+def print_summary(name, values):
+    print(f"--- {name} ---")
+    print("Minimum:", min(values))
+    print("Maximum:", max(values))
+    print("Average:", round(sum(values) / len(values), 1))
+
+temperatures = load_column("readings.csv", "temperature")
+humidity = load_column("readings.csv", "humidity")
+co2 = load_column("readings.csv", "co2")
 
 print("Total readings:", len(temperatures))
-
-print("--- Temperature ---")
-print("Minimum:", min(temperatures))
-print("Maximum:", max(temperatures))
-print("Average:", round(sum(temperatures) / len(temperatures), 1))
-
-print("--- Humidity ---")
-print("Minimum:", min(humidity))
-print("Maximum:", max(humidity))
-print("Average:", round(sum(humidity) / len(humidity), 1))
+print_summary("Temperature", temperatures)
+print_summary("Humidity", humidity)
+print_summary("co2", co2)
 
 if max(temperatures) > 21:
     print("Warning: hot!")
-else :
-    print("Temperature is normal")    
+else:
+    print("Temperature is normal")

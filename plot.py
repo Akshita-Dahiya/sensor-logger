@@ -1,14 +1,16 @@
 import csv
 import matplotlib.pyplot as plt
 
-temperatures = []
-humidity = []
+def load_column(filename, column):
+    values = []
+    with open(filename, "r") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            values.append(float(row[column]))
+    return values
 
-with open("readings.csv", "r") as file:
-    reader = csv.DictReader(file)
-    for row in reader:
-        temperatures.append(float(row["temperature"]))
-        humidity.append(float(row["humidity"]))
+temperatures = load_column("readings.csv", "temperature")
+humidity = load_column("readings.csv", "humidity")
 
 plt.figure(figsize=(8, 6))
 
