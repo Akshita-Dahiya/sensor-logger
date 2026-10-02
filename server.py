@@ -1,11 +1,8 @@
-import csv
-import os
 from fastapi import FastAPI
 from pydantic import BaseModel
-from helpers import load_column
+import db
 
 app = FastAPI()
-FILENAME = "readings.csv"
 
 
 class Reading(BaseModel):
@@ -17,29 +14,24 @@ class Reading(BaseModel):
 
 @app.post("/readings")
 def add_reading(reading: Reading):
-    file_exists = os.path.exists(FILENAME)
-    with open(FILENAME, "a", newline="") as file:
-        writer = csv.writer(file)
-        if not file_exists:
-            writer.writerow(["time", "temperature", "humidity", "co2"])
-        writer.writerow([reading.time, reading.temperature, reading.humidity, reading.co2])
+    db.add_reading(reading.time, reading.temperature, reading.humidity, reading.co2)
     return {"status": "saved"}
 
 
 @app.get("/readings")
 def get_readings():
-    if not os.path.exists(FILENAME):
+    count = db.count_readings()
+    if count == 0:
         return {"count": 0}
-    temperatures = load_column(FILENAME, "temperature")
-    if not temperatures:
-        return {"count": 0}
-    return {"count": len(temperatures), "latest_temperature": temperatures[-1]}
+    latest = db.latest_readings(1)[0]
+    return {"count": count, "latest_temperature": latest["temperature"]}
+
 
 @app.get("/readings/max")
 def get_max_temperature():
-    if not os.path.exists(FILENAME):
-        return {"max_temperature": None}
-    temperatures = load_column(FILENAME, "temperature")
-    if not temperatures:
-        return {"max_temperature": None}
-    return {"max_temperature": max(temperatures)}
+    return {"max_temperature": db.max_temperature()}
+
+
+@app.get("/readings/latest")
+def get_latest(limit: int = 5):
+    return db.latest_readings(limit)

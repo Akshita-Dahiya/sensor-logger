@@ -1,12 +1,16 @@
 import streamlit as st
-from helpers import load_column
+import db
 
 st.title("Sensor Dashboard")
 
-temperatures = load_column("readings.csv", "temperature")
-humidity = load_column("readings.csv", "humidity")
-co2 = load_column("readings.csv", "co2")
+temperatures = db.get_column("temperature")
+humidity = db.get_column("humidity")
+co2 = db.get_column("co2")
 
+if not temperatures:
+    st.info("No readings yet. Start the server and run send_readings.py.")
+    st.stop()
+    
 st.metric("Total readings", len(temperatures))
 
 col1, col2, col3 = st.columns(3)
