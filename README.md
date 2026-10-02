@@ -11,6 +11,8 @@ The project follows the same pipeline as a real IoT system, just at a small scal
 3. **Analysis** (`analyse.py`): prints the minimum, maximum and average for each measurement, plus a warning if the maximum temperature is above 21 °C.
 4. **Visualisation** (`plot.py`): draws temperature and humidity on separate charts and saves them as `chart.png`.
 5. **Dashboard** (`dashboard.py`): shows the averages, a temperature warning and live charts in the browser using Streamlit.
+6. **API server** (`server.py`): a FastAPI server that receives readings and stores them.
+7. **API sender** (`send_readings.py`): simulates a sensor that sends readings to the server.
 
 Shared code for reading CSV columns lives in `helpers.py`.
 
@@ -44,7 +46,15 @@ pip install pytest
 python -m pytest
 ```
 
+To send readings through the API:
 
+```
+pip install fastapi uvicorn requests
+python -m uvicorn server:app --reload
+python send_readings.py
+```
+
+Run the server in one terminal and the sender in another.
 Note: `readings.csv` is created by `sensor.py`, so run it first.
 
 ## What I practised
