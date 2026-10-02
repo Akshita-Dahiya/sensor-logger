@@ -1,12 +1,4 @@
-import csv
-
-def load_column(filename, column):
-    values = []
-    with open(filename, "r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            values.append(float(row[column]))
-    return values
+from helpers import load_column
 
 def print_summary(name, values):
     print(f"--- {name} ---")

@@ -1,13 +1,5 @@
-import csv
 import matplotlib.pyplot as plt
-
-def load_column(filename, column):
-    values = []
-    with open(filename, "r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            values.append(float(row[column]))
-    return values
+from helpers import load_column
 
 temperatures = load_column("readings.csv", "temperature")
 humidity = load_column("readings.csv", "humidity")
