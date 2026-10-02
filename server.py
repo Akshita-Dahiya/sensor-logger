@@ -34,3 +34,12 @@ def get_readings():
     if not temperatures:
         return {"count": 0}
     return {"count": len(temperatures), "latest_temperature": temperatures[-1]}
+
+@app.get("/readings/max")
+def get_max_temperature():
+    if not os.path.exists(FILENAME):
+        return {"max_temperature": None}
+    temperatures = load_column(FILENAME, "temperature")
+    if not temperatures:
+        return {"max_temperature": None}
+    return {"max_temperature": max(temperatures)}
