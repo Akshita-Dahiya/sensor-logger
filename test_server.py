@@ -53,3 +53,10 @@ def test_latest_returns_newest_first(monkeypatch, tmp_path):
     response = client.get("/readings/latest?limit=1")
     assert len(response.json()) == 1
     assert response.json()[0]["temperature"] == 25.0
+
+def test_min_temperature(monkeypatch, tmp_path):
+    use_temp_db(monkeypatch, tmp_path)
+    client.post("/readings", json=SAMPLE)
+    client.post("/readings", json={**SAMPLE, "temperature": 18.0})
+    response = client.get("/readings/min")
+    assert response.json() == {"min_temperature": 18.0}

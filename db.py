@@ -52,6 +52,11 @@ def max_temperature():
     result = conn.execute("SELECT MAX(temperature) FROM readings").fetchone()[0]
     conn.close()
     return result
+def min_temperature():
+    conn = get_connection()
+    result = conn.execute("SELECT MIN(temperature) FROM readings").fetchone()[0]
+    conn.close()
+    return result
 
 
 def latest_readings(limit=5):

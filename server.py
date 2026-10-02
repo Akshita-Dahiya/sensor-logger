@@ -35,3 +35,7 @@ def get_max_temperature():
 @app.get("/readings/latest")
 def get_latest(limit: int = 5):
     return db.latest_readings(limit)
+
+@app.get("/readings/min")
+def get_min_temperature():
+    return {"min_temperature": db.min_temperature()}
