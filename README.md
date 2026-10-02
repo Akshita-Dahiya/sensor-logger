@@ -27,3 +27,6 @@ python analyse.py    # print summary statistics
 python plot.py       # show the chart and save chart.png
 ```
 
+## Author
+
+Akshita Dahiya, 3rd-year CSE (IoT) student at VIT Vellore
