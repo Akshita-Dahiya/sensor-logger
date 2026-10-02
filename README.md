@@ -64,7 +64,18 @@ python send_readings.py
 python -m streamlit run dashboard.py
 ```
 
+To use the API and database:
+
+```
+pip install fastapi uvicorn requests httpx
+python -m uvicorn server:app --reload
+python send_readings.py
+python -m streamlit run dashboard.py
+```
+
 Run the server and the sender in separate terminals. The database file `sensor.db` is created automatically.
+Run the server and the sender in separate terminals. The database file `sensor.db` is created automatically.
+
 Run the server in one terminal and the sender in another.
 Note: `readings.csv` is created by `sensor.py`, so run it first.
 
