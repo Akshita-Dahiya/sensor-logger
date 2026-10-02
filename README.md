@@ -10,22 +10,31 @@ The project follows the same pipeline as a real IoT system, just at a small scal
 2. **Storage** (`readings.csv`): one row per reading with the columns `time`, `temperature`, `humidity` and `co2`.
 3. **Analysis** (`analyse.py`): reads the CSV and prints the minimum, maximum and average for temperature and humidity, plus a warning if the maximum temperature is above 21 °C.
 4. **Visualisation** (`plot.py`): draws temperature and humidity on separate charts and saves them as `chart.png`.
+5. **Dashboard** (dashboard.py): shows the averages, a temperature warning and live charts in the browser using Streamlit.
 
 ## How to run
 
-Requires Python 3 and matplotlib:
+Requires Python 3 and these libraries:
 
 ```
-pip install matplotlib
+pip install matplotlib streamlit
 ```
 
-Then run the scripts in this order:
+Run the scripts in this order:
 
 ```
 python sensor.py     # generate and log readings (run it a few times)
 python analyse.py    # print summary statistics
 python plot.py       # show the chart and save chart.png
 ```
+
+To view the live dashboard:
+
+```
+python -m streamlit run dashboard.py
+```
+
+Note: `readings.csv` is created by `sensor.py`, so run it first.
 
 ## Author
 
