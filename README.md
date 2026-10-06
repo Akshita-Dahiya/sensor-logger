@@ -6,29 +6,35 @@ A beginner-friendly Python project that simulates an IoT sensor node. A sender s
 
 ## How it works
 
-The project follows the same pipeline as a real IoT system, just at a small scale:
+The project follows the same pipeline as a real IoT system, just at a small scale. It has two paths: simple scripts that use a CSV file, and an API with a database.
+
+**Path 1: CSV scripts**
 
 1. **Sensor** (`sensor.py`): generates readings and appends them to `readings.csv`. The header row is written only once, even across multiple runs.
 2. **Storage** (`readings.csv`): one row per reading with the columns `time`, `temperature`, `humidity` and `co2`.
 3. **Analysis** (`analyse.py`): prints the minimum, maximum and average for each measurement, plus a warning if the maximum temperature is above 21 °C.
 4. **Visualisation** (`plot.py`): draws temperature and humidity on separate charts and saves them as `chart.png`.
-5. **Dashboard** (`dashboard.py`): shows the averages, a temperature warning and live charts in the browser using Streamlit.
-6. **Database** (`db.py`): stores readings in a SQLite database (`sensor.db`).
-7. **API server** (`server.py`): a FastAPI server that receives readings and serves summaries.
-8. **API sender** (`send_readings.py`): simulates a sensor that sends readings to the server.
 
-Shared code for reading CSV columns lives in `helpers.py`.
+**Path 2: API, database and dashboard**
+
+1. **API sender** (`send_readings.py`): simulates a sensor that sends readings to the server.
+2. **API server** (`server.py`): a FastAPI server that receives readings and serves summaries (count, latest, minimum and maximum temperature).
+3. **Database** (`db.py`): stores readings in a SQLite database (`sensor.db`).
+4. **Dashboard** (`dashboard.py`): reads from the database and shows the averages, a temperature warning and live charts in the browser using Streamlit.
+
+Shared code for reading CSV columns lives in `helpers.py`. `import_csv.py` copies existing readings from `readings.csv` into the database (run it once).
+
+There are 15 automated tests (`test_helpers.py`, `test_db.py`, `test_server.py`).
 
 ## How to run
-
 
 Requires Python 3 and these libraries:
 
 ```
-pip install matplotlib streamlit
+pip install matplotlib streamlit fastapi uvicorn requests httpx pytest
 ```
 
-Run the scripts in this order:
+**Path 1: CSV scripts**
 
 ```
 python sensor.py     # generate and log readings (run it a few times)
@@ -36,50 +42,25 @@ python analyse.py    # print summary statistics
 python plot.py       # show the chart and save chart.png
 ```
 
-To view the live dashboard:
+`readings.csv` is created by `sensor.py`, so run it first.
+
+**Path 2: API, database and dashboard**
+
+Run each command in its own terminal:
 
 ```
+python -m uvicorn server:app --reload
+python send_readings.py
 python -m streamlit run dashboard.py
 ```
 
-To run the tests:
+The database file `sensor.db` is created automatically. Optionally, run `python import_csv.py` once to copy your existing CSV readings into it.
+
+**Tests**
 
 ```
-pip install pytest
 python -m pytest
 ```
-
-To send readings through the API:
-
-```
-pip install fastapi uvicorn requests
-python -m uvicorn server:app --reload
-python send_readings.py
-```
-
-To use the API and database:
-
-```
-pip install fastapi uvicorn requests httpx
-python -m uvicorn server:app --reload
-python send_readings.py
-python -m streamlit run dashboard.py
-```
-
-To use the API and database:
-
-```
-pip install fastapi uvicorn requests httpx
-python -m uvicorn server:app --reload
-python send_readings.py
-python -m streamlit run dashboard.py
-```
-
-Run the server and the sender in separate terminals. The database file `sensor.db` is created automatically.
-Run the server and the sender in separate terminals. The database file `sensor.db` is created automatically.
-
-Run the server in one terminal and the sender in another.
-Note: `readings.csv` is created by `sensor.py`, so run it first.
 
 ## What I practised
 
@@ -87,11 +68,14 @@ Note: `readings.csv` is created by `sensor.py`, so run it first.
 - Reading and writing CSV files
 - Splitting code into reusable functions and modules
 - Plotting data with matplotlib
+- Building a REST API with FastAPI
+- Storing data in a SQLite database with SQL
 - Building a dashboard with Streamlit
+- Writing automated tests with pytest
 - Using Git and GitHub from the terminal
 
 ## Next steps
 
-- Add CO2 to the charts
+- Make the dashboard read from the API instead of the database file
 - Replace the fake sensor with a real ESP32 sensor node
-- Send readings through an API instead of a file
+- Package the project with Docker and deploy the dashboard online
