@@ -2,6 +2,8 @@
 
 A beginner-friendly Python project that simulates an IoT sensor node. It generates fake temperature, humidity and CO2 readings, saves them to a CSV file, analyses the data (minimum, maximum, average and a high-temperature warning), and shows the results as charts and a live dashboard. It is built in plain Python with no hardware, as a foundation for later IoT projects where the simulated sensor can be swapped for a real one.
 
+![Dashboard](dashboard.png)
+
 ## How it works
 
 The project follows the same pipeline as a real IoT system, just at a small scale:
