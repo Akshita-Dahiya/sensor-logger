@@ -1,6 +1,6 @@
 # Sensor Logger
 
-A beginner-friendly Python project that simulates an IoT sensor node. It generates fake temperature, humidity and CO2 readings, saves them to a CSV file, analyses the data (minimum, maximum, average and a high-temperature warning), and shows the results as charts and a live dashboard. It is built in plain Python with no hardware, as a foundation for later IoT projects where the simulated sensor can be swapped for a real one.
+A beginner-friendly Python project that simulates an IoT sensor node. A sender script posts fake temperature, humidity and CO2 readings to a FastAPI server, which stores them in a SQLite database. A Streamlit dashboard shows summary metrics, a high-temperature warning and live charts. It runs with no hardware, as a foundation for later IoT projects where the simulated sensor can be swapped for a real one.
 
 ![Dashboard](dashboard.png)
 
